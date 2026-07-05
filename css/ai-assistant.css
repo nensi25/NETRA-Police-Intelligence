@@ -1,0 +1,324 @@
+/* =============================================
+   NETRA AI ASSISTANT STYLES
+   ============================================= */
+
+/* Container fixed to bottom-right */
+.netra-ai-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+/* FAB Styling */
+.netra-ai-fab {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2563EB, #3B82F6);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(37, 99, 235, 0.4);
+  cursor: pointer;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border: none;
+  outline: none;
+  animation: pulse-glow 8s infinite;
+  margin-top: 16px;
+}
+
+.netra-ai-fab:hover {
+  transform: scale(1.08);
+}
+
+.netra-ai-fab svg {
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.5));
+}
+
+@keyframes pulse-glow {
+  0% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.6); }
+  10% { box-shadow: 0 0 0 15px rgba(37, 99, 235, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); }
+}
+
+/* Chat Panel Styling */
+.netra-ai-panel {
+  width: 420px;
+  height: 620px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(20px) scale(0.95);
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transform-origin: bottom right;
+}
+
+.netra-ai-panel.open {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+/* Dark Mode Overrides for Chat Panel */
+[data-theme="dark"] .netra-ai-panel {
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* Header */
+.netra-ai-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--card-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(255,255,255,0.5);
+}
+[data-theme="dark"] .netra-ai-header { background: rgba(0,0,0,0.2); }
+
+.netra-ai-header-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.netra-ai-icon-wrap {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(37,99,235,0.1), rgba(59,130,246,0.2));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+
+.netra-ai-header-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.netra-ai-action-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  background: transparent;
+  transition: background 0.2s, color 0.2s;
+  font-size: 14px;
+}
+.netra-ai-action-btn:hover {
+  background: var(--bg-body);
+  color: var(--text-primary);
+}
+
+/* Chat Body */
+.netra-ai-body {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  scroll-behavior: smooth;
+}
+
+.netra-ai-body::-webkit-scrollbar {
+  width: 6px;
+}
+.netra-ai-body::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.1);
+  border-radius: 10px;
+}
+[data-theme="dark"] .netra-ai-body::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.1);
+}
+
+/* Messages */
+.netra-ai-msg-row {
+  display: flex;
+  flex-direction: column;
+  max-width: 85%;
+}
+
+.netra-ai-msg-row.ai {
+  align-self: flex-start;
+}
+
+.netra-ai-msg-row.user {
+  align-self: flex-end;
+  align-items: flex-end;
+}
+
+.netra-ai-bubble {
+  padding: 12px 16px;
+  font-size: 14px;
+  line-height: 1.5;
+  border-radius: 16px;
+  box-shadow: var(--shadow-sm);
+  color: var(--text-primary);
+}
+
+.netra-ai-msg-row.ai .netra-ai-bubble {
+  background: var(--card-bg);
+  border-top-left-radius: 4px;
+  border: 1px solid var(--card-border);
+}
+
+.netra-ai-msg-row.user .netra-ai-bubble {
+  background: linear-gradient(135deg, #2563EB, #3B82F6);
+  color: white;
+  border-top-right-radius: 4px;
+}
+
+.netra-ai-msg-time {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 6px;
+  margin-bottom: 2px;
+}
+
+/* Formatting inside AI bubble */
+.netra-ai-bubble h4 { margin-top: 10px; margin-bottom: 5px; font-size: 14px; }
+.netra-ai-bubble h4:first-child { margin-top: 0; }
+.netra-ai-bubble ul { padding-left: 20px; margin-top: 5px; margin-bottom: 5px; }
+.netra-ai-bubble p { margin-bottom: 8px; }
+.netra-ai-bubble p:last-child { margin-bottom: 0; }
+
+/* Typing Indicator */
+.netra-ai-typing {
+  display: flex;
+  gap: 4px;
+  padding: 8px 12px;
+}
+.typing-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--text-muted);
+  border-radius: 50%;
+  animation: typing-bounce 1.4s infinite ease-in-out both;
+}
+.typing-dot:nth-child(1) { animation-delay: -0.32s; }
+.typing-dot:nth-child(2) { animation-delay: -0.16s; }
+@keyframes typing-bounce {
+  0%, 80%, 100% { transform: scale(0); }
+  40% { transform: scale(1); }
+}
+
+/* Footer & Input */
+.netra-ai-footer {
+  padding: 16px 20px;
+  border-top: 1px solid var(--card-border);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: rgba(255,255,255,0.5);
+}
+[data-theme="dark"] .netra-ai-footer { background: rgba(0,0,0,0.2); }
+
+.netra-ai-chips {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  margin-bottom: -8px;
+}
+.netra-ai-chips::-webkit-scrollbar { height: 4px; }
+.netra-ai-chips::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.1); border-radius: 4px; }
+[data-theme="dark"] .netra-ai-chips::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); }
+
+.netra-ai-chip {
+  padding: 6px 12px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-primary);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: var(--shadow-sm);
+}
+.netra-ai-chip:hover {
+  background: rgba(37,99,235,0.05);
+  border-color: var(--blue-light);
+  color: var(--blue);
+}
+
+.netra-ai-input-wrap {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  padding: 8px 12px;
+  box-shadow: var(--shadow-sm);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.netra-ai-input-wrap:focus-within {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
+}
+
+#netra-ai-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  color: var(--text-primary);
+  resize: none;
+  max-height: 120px;
+  outline: none;
+  padding: 6px 0;
+  font-family: inherit;
+}
+#netra-ai-input::placeholder {
+  color: var(--text-muted);
+}
+
+.netra-ai-send-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--blue);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform 0.2s, background 0.2s;
+}
+.netra-ai-send-btn:hover {
+  background: var(--blue-light);
+  transform: scale(1.05);
+}
+.netra-ai-send-btn:active {
+  transform: scale(0.95);
+}
+
+@media (max-width: 768px) {
+  .netra-ai-panel {
+    width: calc(100vw - 40px);
+    height: calc(100vh - 120px);
+    max-height: 620px;
+  }
+}

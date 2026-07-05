@@ -1,0 +1,81 @@
+/* =============================================
+   NETRA — THEMES (Accent Colors)
+   ============================================= */
+
+/* Default Blue */
+[data-accent="blue"] {
+  --sidebar-active: #1a56db;
+  --blue: #2563eb;
+  --blue-light: #3b82f6;
+}
+
+/* Cyan */
+[data-accent="cyan"] {
+  --sidebar-active: #0891b2;
+  --blue: #06b6d4;
+  --blue-light: #22d3ee;
+}
+
+/* Green */
+[data-accent="green"] {
+  --sidebar-active: #15803d;
+  --blue: #16a34a;
+  --blue-light: #22c55e;
+}
+
+/* Purple */
+[data-accent="purple"] {
+  --sidebar-active: #7c3aed;
+  --blue: #8b5cf6;
+  --blue-light: #a78bfa;
+}
+
+/* Orange */
+[data-accent="orange"] {
+  --sidebar-active: #c2410c;
+  --blue: #ea580c;
+  --blue-light: #f97316;
+}
+
+/* Red */
+[data-accent="red"] {
+  --sidebar-active: #b91c1c;
+  --blue: #dc2626;
+  --blue-light: #ef4444;
+}
+
+/* =============================================
+   FONT SIZES
+   ============================================= */
+[data-font="sm"] { font-size: 13px; }
+[data-font="md"] { font-size: 14px; }  /* default */
+[data-font="lg"] { font-size: 15px; }
+
+/* =============================================
+   COMPACT MODE
+   ============================================= */
+[data-compact="true"] .content-area {
+  padding: 12px 18px;
+}
+[data-compact="true"] .stats-row {
+  gap: 10px;
+  margin-bottom: 12px;
+}
+[data-compact="true"] .stat-card {
+  padding: 12px;
+}
+[data-compact="true"] .stat-value {
+  font-size: 22px;
+}
+[data-compact="true"] .card-header {
+  padding: 10px 14px 8px;
+}
+[data-compact="true"] .nav-item {
+  padding: 8px 12px;
+  font-size: 12.5px;
+}
+[data-compact="true"] .dashboard-grid,
+[data-compact="true"] .dashboard-bottom,
+[data-compact="true"] .analytics-grid {
+  gap: 10px;
+}

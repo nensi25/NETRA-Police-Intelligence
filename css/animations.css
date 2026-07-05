@@ -1,0 +1,157 @@
+/* =============================================
+   NETRA — ANIMATIONS
+   ============================================= */
+
+/* Fade In Up */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Fade In */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Slide In From Left */
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* Slide In From Right */
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* Scale In */
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* Pulse Dot */
+@keyframes pulseDot {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50%       { transform: scale(1.3); opacity: 0.7; }
+}
+
+/* Pulse Ring (for Map Markers) */
+@keyframes pulseRing {
+  0% { transform: scale(0.8); opacity: 0.5; }
+  100% { transform: scale(3); opacity: 0; }
+}
+
+/* Spin */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Counter Number */
+@keyframes countUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Glow */
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 5px rgba(37,99,235,0.3); }
+  50%       { box-shadow: 0 0 20px rgba(37,99,235,0.6); }
+}
+
+/* Emergency pulse */
+@keyframes emergencyPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(239,68,68,0.4); }
+  50%       { box-shadow: 0 0 0 10px rgba(239,68,68,0); }
+}
+
+/* Skeleton wave */
+@keyframes skeletonWave {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Page transition */
+@keyframes pageEnter {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* =============================================
+   ANIMATION UTILITY CLASSES
+   ============================================= */
+.animate-in         { animation: fadeInUp 0.5s ease both; }
+.animate-fade       { animation: fadeIn 0.4s ease both; }
+.animate-slide-left { animation: slideInLeft 0.4s ease both; }
+.animate-scale      { animation: scaleIn 0.3s ease both; }
+
+/* Staggered delays for stat cards */
+.stat-card:nth-child(1) { animation-delay: 0.05s; }
+.stat-card:nth-child(2) { animation-delay: 0.10s; }
+.stat-card:nth-child(3) { animation-delay: 0.15s; }
+.stat-card:nth-child(4) { animation-delay: 0.20s; }
+.stat-card:nth-child(5) { animation-delay: 0.25s; }
+
+/* Page enter */
+.page.active { animation: pageEnter 0.35s ease both; }
+
+/* Spinner */
+.spinner {
+  width: 20px; height: 20px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  display: inline-block;
+}
+
+/* Progress bar animation */
+.risk-progress-fill {
+  animation: progressGrow 1s ease both;
+  animation-delay: 0.3s;
+}
+@keyframes progressGrow {
+  from { width: 0 !important; }
+}
+
+/* Live dot blinking */
+.live-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--green);
+  display: inline-block;
+  animation: pulseDot 1.5s ease-in-out infinite;
+}
+.live-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 10px; font-weight: 700;
+  color: var(--green); text-transform: uppercase; letter-spacing: 0.5px;
+}
+
+/* Button hover ripple */
+.btn-primary:active { transform: scale(0.98); }
+.btn-secondary:active { transform: scale(0.98); }
+
+/* Card hover lift */
+.card-hover-lift {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.card-hover-lift:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Network node pulse */
+@keyframes nodePulse {
+  0%, 100% { r: 8; }
+  50%       { r: 10; }
+}
+
+/* Alert flash */
+@keyframes alertFlash {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.6; }
+}
+.alert-critical-flash { animation: alertFlash 2s ease-in-out infinite; }

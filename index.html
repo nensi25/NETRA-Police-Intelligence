@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NETRA — Police Intelligence Platform</title>
+  <meta name="description" content="NETRA is an advanced AI-powered police intelligence platform providing real-time crime analytics, heatmaps, incident tracking, and predictive policing for law enforcement.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/themes.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+<div class="app-layout">
+
+  <!-- Mobile overlay -->
+  <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+  <!-- ================================
+       SIDEBAR
+       ================================ -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-logo">
+        <img src="assets/netra-logo.png" alt="NETRA Logo">
+      </div>
+      <div class="brand-info">
+        <span class="brand-name">NETRA</span>
+        <span class="brand-sub">Police Intelligence Platform</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav" id="sidebar-nav">
+      <a class="nav-item" data-page="dashboard" id="nav-dashboard">
+        <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/>
+          <rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/>
+        </svg>
+        <span>Dashboard</span>
+      </a>
+      <a class="nav-item" data-page="livemap" id="nav-livemap">
+        <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/>
+          <line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/>
+        </svg>
+        <span>Live Crime Map</span>
+      </a>
+      <a class="nav-item" data-page="hotspots" id="nav-hotspots">
+        <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>
+        </svg>
+        <span>Hotspots</span>
+      </a>
+      <a class="nav-item" data-page="incidents" id="nav-incidents">
+        <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+        </svg>
+        <span>Incidents</span>
+      </a>
+      <a class="nav-item" data-page="analytics" id="nav-analytics">
+        <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/>
+          <line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/>
+        </svg>
+        <span>Analytics</span>
+      </a>
+      <a class="nav-item" data-page="intelligence" id="nav-intelligence">
+        <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+          <line x1="12" y1="17" x2="12.01" y2="17"/>
+        </svg>
+        <span>Crime Intelligence</span>
+      </a>
+      <a class="nav-item" data-page="network" id="nav-network">
+        <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="5" r="2"/><circle cx="5" cy="19" r="2"/><circle cx="19" cy="19" r="2"/>
+          <line x1="12" y1="7" x2="5.5" y2="17"/><line x1="12" y1="7" x2="18.5" y2="17"/><line x1="6.5" y1="19" x2="17.5" y2="19"/>
+        </svg>
+        <span>Offender Network</span>
+      </a>
+      <a class="nav-item" data-page="reports" id="nav-reports">
+        <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/>
+          <line x1="4" y1="22" x2="4" y2="15"/>
+        </svg>
+        <span>Reports</span>
+      </a>
+      <a class="nav-item" data-page="alerts" id="nav-alerts">
+        <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+          <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+        </svg>
+        <span>Alerts</span>
+        <span class="nav-badge alert" id="alerts-nav-badge">5</span>
+      </a>
+      <a class="nav-item" data-page="settings" id="nav-settings">
+        <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+        <span>Settings</span>
+      </a>
+    </nav>
+
+    <!-- Emergency -->
+    <div class="sidebar-emergency">
+      <div class="emergency-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+        </svg>
+      </div>
+      <div class="emergency-label">Emergency Helpline</div>
+      <div class="emergency-number">112</div>
+      <div class="emergency-sub">24x7 Control Room</div>
+    </div>
+  </aside>
+
+  <!-- ================================
+       MAIN CONTAINER
+       ================================ -->
+  <div class="main-container">
+
+    <!-- TOP HEADER -->
+    <header class="top-header">
+      <div class="header-left">
+        <button class="sidebar-toggle" id="sidebar-toggle" title="Toggle Sidebar">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+        <div class="header-greeting">
+          <span class="greeting-top" id="greeting-top">Good Evening,</span>
+          <span class="greeting-name" id="greeting-name">Insp. Arjun</span>
+        </div>
+      </div>
+      
+      <div class="header-center">
+        <div class="global-search-wrap">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="search" class="global-search" placeholder="Search incidents, suspects, or locations... (Press '/')">
+        </div>
+      </div>
+
+      <div class="header-right">
+        <div class="header-date">
+          <span class="header-date-main" id="header-date-main"></span>
+          <span class="header-date-sub" id="header-date-sub"></span>
+        </div>
+        
+        <!-- Messages -->
+        <div style="position:relative;">
+          <button class="icon-btn" id="msg-btn" title="Messages" onclick="document.getElementById('msg-dropdown').classList.toggle('active')">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </button>
+          
+          <div class="dropdown-menu msg-dropdown" id="msg-dropdown">
+            <div class="dropdown-header">
+              <h4>Messages</h4>
+              <span class="badge">2 New</span>
+            </div>
+            <div class="dropdown-list">
+              <a href="#" class="dropdown-item unread">
+                <div class="msg-avatar" style="background:var(--blue-light);">CP</div>
+                <div class="msg-content">
+                  <span class="msg-title">Comm. Prakash</span>
+                  <span class="msg-desc">Please review the Koramangala intel...</span>
+                  <span class="msg-time">10m ago</span>
+                </div>
+              </a>
+              <a href="#" class="dropdown-item unread">
+                <div class="msg-avatar" style="background:var(--orange);">D</div>
+                <div class="msg-content">
+                  <span class="msg-title">Dispatch</span>
+                  <span class="msg-desc">Unit 4 has arrived at the scene.</span>
+                  <span class="msg-time">45m ago</span>
+                </div>
+              </a>
+              <a href="#" class="dropdown-item">
+                <div class="msg-avatar" style="background:var(--text-muted);">S</div>
+                <div class="msg-content">
+                  <span class="msg-title">System</span>
+                  <span class="msg-desc">Weekly report generated successfully.</span>
+                  <span class="msg-time">Yesterday</span>
+                </div>
+              </a>
+            </div>
+            <div class="dropdown-footer">
+              <button class="link-btn" style="font-size:13px;width:100%;">View All Messages</button>
+            </div>
+          </div>
+        </div>
+
+        <button class="icon-btn" id="notif-btn" title="Notifications">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+          </svg>
+          <span class="notif-dot"></span>
+        </button>
+
+        <div class="header-user" onclick="document.getElementById('profile-dropdown').classList.toggle('active')" style="position:relative;cursor:pointer;">
+          <div class="user-avatar" id="current-user-avatar">A</div>
+          <div class="header-user-info">
+            <span class="header-user-name" id="current-user-name">Insp. Arjun</span>
+            <span class="header-user-id" id="current-user-id">KSP ID: 4587</span>
+          </div>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left:4px;color:var(--text-muted);"><polyline points="6 9 12 15 18 9"/></svg>
+          
+          <div class="dropdown-menu profile-dropdown" id="profile-dropdown">
+            <div class="dropdown-header">
+              <span style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;">Switch Profile</span>
+            </div>
+            <div class="dropdown-list">
+              <div class="dropdown-item profile-item" onclick="switchProfile('A', 'Insp. Arjun', '4587', event)">
+                <div class="user-avatar" style="width:30px;height:30px;font-size:12px;">A</div>
+                <div>
+                  <div style="font-size:13px;font-weight:600;color:var(--text-primary);">Insp. Arjun</div>
+                  <div style="font-size:11px;color:var(--text-muted);">KSP ID: 4587</div>
+                </div>
+              </div>
+              <div class="dropdown-item profile-item" onclick="switchProfile('P', 'Comm. Prakash', '1023', event)">
+                <div class="user-avatar" style="width:30px;height:30px;font-size:12px;background:var(--blue-light);">P</div>
+                <div>
+                  <div style="font-size:13px;font-weight:600;color:var(--text-primary);">Comm. Prakash</div>
+                  <div style="font-size:11px;color:var(--text-muted);">KSP ID: 1023</div>
+                </div>
+              </div>
+              <div class="dropdown-item profile-item" onclick="switchProfile('S', 'Sgt. Sarah', '8912', event)">
+                <div class="user-avatar" style="width:30px;height:30px;font-size:12px;background:var(--green);">S</div>
+                <div>
+                  <div style="font-size:13px;font-weight:600;color:var(--text-primary);">Sgt. Sarah</div>
+                  <div style="font-size:11px;color:var(--text-muted);">KSP ID: 8912</div>
+                </div>
+              </div>
+            </div>
+            <div class="dropdown-footer" style="display:flex;flex-direction:column;gap:5px;">
+              <button class="dropdown-action-btn" onclick="Router.navigate('settings')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg> Account Settings</button>
+              <button class="dropdown-action-btn text-red"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg> Logout</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ================================
+         CONTENT AREA — ALL PAGES
+         ================================ -->
+    <main class="content-area">
+
+      <!-- ======================== DASHBOARD ======================== -->
+      <div class="page" id="page-dashboard">
+        <!-- KPI Stats -->
+        <div class="stats-row">
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-label">Today's Incidents</span>
+              <div class="stat-icon-wrap blue">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </div>
+            </div>
+            <div class="stat-body">
+              <span class="stat-value" id="stat-val-incidents">234</span>
+            </div>
+            <div class="stat-footer">
+              <span class="stat-change positive">▲ +12%</span>
+            </div>
+            <div class="sparkline-container"><canvas id="spark-incidents"></canvas></div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-label">Open Cases</span>
+              <div class="stat-icon-wrap orange">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              </div>
+            </div>
+            <div class="stat-body">
+              <span class="stat-value" id="stat-val-open">128</span>
+            </div>
+            <div class="stat-footer">
+              <span class="stat-change negative">▼ -8%</span>
+            </div>
+            <div class="sparkline-container"><canvas id="spark-open"></canvas></div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-label">High Risk Areas</span>
+              <div class="stat-icon-wrap red">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              </div>
+            </div>
+            <div class="stat-body">
+              <span class="stat-value" id="stat-val-risk">12</span>
+            </div>
+            <div class="stat-footer">
+              <span class="stat-change negative">▲ +3 New</span>
+            </div>
+            <div class="sparkline-container"><canvas id="spark-risk"></canvas></div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-label">Patrols Active</span>
+              <div class="stat-icon-wrap green">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              </div>
+            </div>
+            <div class="stat-body">
+              <span class="stat-value" id="stat-val-patrol">18</span>
+            </div>
+            <div class="stat-footer">
+              <span class="stat-change neutral">Stable</span>
+            </div>
+            <div class="sparkline-container"><canvas id="spark-patrols"></canvas></div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-label">Crime Trend (7D)</span>
+              <div class="stat-icon-wrap cyan">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              </div>
+            </div>
+            <div class="stat-body">
+              <span class="stat-value" id="stat-val-trend">-4%</span>
+            </div>
+            <div class="stat-footer">
+              <span class="stat-change positive">▼ Decrease</span>
+            </div>
+            <div class="sparkline-container"><canvas id="spark-trend"></canvas></div>
+          </div>
+        </div>
+
+        <!-- Map + Incidents -->
+        <div class="dashboard-grid">
+          <div class="card map-card">
+            <div class="card-header">
+              <div style="display:flex;align-items:center;gap:8px;">
+                <h3>LIVE CRIME MAP</h3>
+                <span class="live-badge"><span class="live-dot"></span> LIVE</span>
+              </div>
+              <button class="link-btn" onclick="Router.navigate('livemap')">Full Map →</button>
+            </div>
+            <div style="position:relative;">
+              <div id="crime-map"></div>
+              <div class="map-legend-bar">
+                <span>Low Risk</span><div class="legend-gradient-bar"></div><span>High Risk</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h3>RECENT INCIDENTS</h3>
+              <button class="link-btn dash-view-incidents">View All</button>
+            </div>
+            <div class="incidents-list" id="dash-incidents-list"></div>
+            <div class="view-all-link dash-view-incidents" style="cursor:pointer;">View All Incidents →</div>
+          </div>
+        </div>
+
+        <!-- Bottom: Trend + Risk + Alerts + Intel -->
+        <div class="dashboard-bottom">
+          <!-- Crime Trend & AI Prediction -->
+          <div style="display:flex;flex-direction:column;gap:18px;">
+            <div class="card chart-card">
+              <div class="card-header">
+                <h3>CRIME TREND <span class="card-subtitle">AI Optimized</span></h3>
+                <div class="chart-controls">
+                  <button class="chart-toggle-btn active">7 Days</button>
+                  <button class="chart-toggle-btn">30 Days</button>
+                  <button class="chart-toggle-btn">6 Months</button>
+                  <button class="chart-toggle-btn">1 Year</button>
+                </div>
+              </div>
+              <div style="padding:0 24px;">
+                <div style="display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--text-primary);">
+                  <span style="color:var(--red);">↑ 12%</span> compared to last month
+                </div>
+              </div>
+              <div class="card-body" style="height:250px;">
+                <canvas id="crime-trend-chart"></canvas>
+              </div>
+            </div>
+
+            <!-- AI Prediction Card -->
+            <div class="card" style="position:relative; overflow:visible; border: 1px solid rgba(139,92,246,0.3); box-shadow: 0 4px 20px rgba(139,92,246,0.15);">
+              <div style="position:absolute; top:-12px; right:20px; background:linear-gradient(135deg, #8b5cf6, #3b82f6); color:#fff; font-size:10px; font-weight:800; padding:4px 12px; border-radius:20px; box-shadow:0 4px 10px rgba(139,92,246,0.4); display:flex; align-items:center; gap:4px; letter-spacing:0.5px;">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                AI PREDICTION
+              </div>
+              
+              <div class="card-header" style="padding-bottom:10px;">
+                <h3>PREDICTIVE INTELLIGENCE</h3>
+              </div>
+              <div class="card-body" style="display:flex; gap:20px; padding-top:10px;">
+                
+                <!-- Circular confidence -->
+                <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; width:120px; flex-shrink:0;">
+                  <div style="position:relative; width:90px; height:90px;">
+                    <svg viewBox="0 0 36 36" style="width:100%; height:100%; transform:rotate(-90deg);">
+                      <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="rgba(139,92,246,0.15)" stroke-width="3"/>
+                      <path id="ai-conf-ring" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#8b5cf6" stroke-width="3" stroke-dasharray="0, 100" style="transition: stroke-dasharray 1.5s ease-out;"/>
+                    </svg>
+                    <div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; flex-direction:column;">
+                      <span style="font-size:20px; font-weight:800; color:var(--text-primary);">92%</span>
+                    </div>
+                  </div>
+                  <span style="font-size:10px; font-weight:600; color:var(--text-muted); margin-top:8px; text-transform:uppercase;">Confidence</span>
+                </div>
+
+                <!-- Info -->
+                <div style="flex:1;">
+                  <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px;">
+                    <div><div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; font-weight:600;">Predicted Crime</div><div style="font-size:14px; font-weight:700; color:var(--text-primary);">Vehicle Theft</div></div>
+                    <div><div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; font-weight:600;">Location</div><div style="font-size:14px; font-weight:700; color:var(--text-primary);">Koramangala Sec 3</div></div>
+                    <div><div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; font-weight:600;">Time Window</div><div style="font-size:13px; font-weight:600; color:var(--red);">8:00 PM – 11:00 PM</div></div>
+                    <div><div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; font-weight:600;">Risk Level</div><div style="display:inline-block; margin-top:2px; font-size:10px; font-weight:700; padding:2px 8px; border-radius:20px; background:var(--red-bg); color:var(--red);">CRITICAL</div></div>
+                  </div>
+                  
+                  <div style="border-top:1px solid var(--card-border); padding-top:12px; font-size:12px; color:var(--text-secondary);">
+                    <div style="font-weight:700; color:var(--text-primary); margin-bottom:6px;">AI Recommendations:</div>
+                    <div style="display:flex; align-items:center; gap:6px; margin-bottom:4px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Deploy 3 patrol units</div>
+                    <div style="display:flex; align-items:center; gap:6px; margin-bottom:4px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Activate drone surveillance</div>
+                    <div style="display:flex; align-items:center; gap:6px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Notify nearby officers</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h3>TOP HIGH RISK AREAS</h3>
+              <button class="link-btn dash-view-hotspots">View All</button>
+            </div>
+            <div class="risk-areas-list" id="dash-risk-areas"></div>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:18px;">
+            <div class="card" style="flex:1;">
+              <div class="card-header">
+                <h3>ACTIVE ALERTS</h3>
+                <button class="link-btn dash-view-alerts">View All</button>
+              </div>
+              <div id="dash-alerts-list"></div>
+            </div>
+            <div class="card">
+              <div class="card-header"><h3>INTELLIGENCE BRIEF</h3></div>
+              <div class="intel-brief" id="dash-intel-brief"></div>
+              <div style="padding:0 16px 16px;">
+                <button class="btn-primary full-width" onclick="Router.navigate('intelligence')">View Full Report →</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /DASHBOARD -->
+
+      <!-- ======================== LIVE MAP ======================== -->
+      <div class="page" id="page-livemap">
+        <div class="page-heading">
+          <h2>
+            <span class="page-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg>
+            </span>
+            Live Crime Map
+          </h2>
+          <div class="page-actions">
+            <span class="live-badge"><span class="live-dot"></span> LIVE</span>
+          </div>
+        </div>
+
+        <!-- Stats bar -->
+        <div class="stats-row" style="grid-template-columns:repeat(4,1fr);margin-bottom:16px;">
+          <div class="stat-card"><div class="stat-icon-wrap red"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><div class="stat-body"><span class="stat-label">Active Incidents</span><span class="stat-value">12</span></div></div>
+          <div class="stat-card"><div class="stat-icon-wrap orange"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div><div class="stat-body"><span class="stat-label">Hotspot Zones</span><span class="stat-value">7</span></div></div>
+          <div class="stat-card"><div class="stat-icon-wrap green"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><div class="stat-body"><span class="stat-label">Patrol Units</span><span class="stat-value">18</span></div></div>
+          <div class="stat-card"><div class="stat-icon-wrap blue"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><div class="stat-body"><span class="stat-label">Incidents Today</span><span class="stat-value">234</span></div></div>
+        </div>
+
+        <div class="card">
+          <div class="map-filter-bar">
+            <span style="font-size:12px;font-weight:600;color:var(--text-muted);">Filter:</span>
+            <button class="map-filter-btn active" data-filter="all" onclick="MapModule.filterMap('all')">All Crimes</button>
+            <button class="map-filter-btn" data-filter="robbery" onclick="MapModule.filterMap('robbery')">Robbery</button>
+            <button class="map-filter-btn" data-filter="assault" onclick="MapModule.filterMap('assault')">Assault</button>
+            <button class="map-filter-btn" data-filter="theft" onclick="MapModule.filterMap('theft')">Theft</button>
+            <button class="map-filter-btn" data-filter="burglary" onclick="MapModule.filterMap('burglary')">Burglary</button>
+            <button class="map-filter-btn" data-filter="cybercrime" onclick="MapModule.filterMap('cybercrime')">Cyber Crime</button>
+          </div>
+          <div id="full-map"></div>
+          <div class="map-legend-bar">
+            <span>Low Risk</span><div class="legend-gradient-bar"></div><span>High Risk</span>
+            <div style="margin-left:auto;display:flex;gap:14px;">
+              <span style="display:flex;align-items:center;gap:5px;font-size:10.5px;"><span style="width:10px;height:10px;border-radius:50%;background:#ef4444;display:inline-block;"></span>Robbery</span>
+              <span style="display:flex;align-items:center;gap:5px;font-size:10.5px;"><span style="width:10px;height:10px;border-radius:50%;background:#f59e0b;display:inline-block;"></span>Assault</span>
+              <span style="display:flex;align-items:center;gap:5px;font-size:10.5px;"><span style="width:10px;height:10px;border-radius:50%;background:#3b82f6;display:inline-block;"></span>Theft</span>
+              <span style="display:flex;align-items:center;gap:5px;font-size:10.5px;"><span style="width:10px;height:10px;border-radius:50%;background:#8b5cf6;display:inline-block;"></span>Burglary</span>
+              <span style="display:flex;align-items:center;gap:5px;font-size:10.5px;"><span style="width:10px;height:10px;border-radius:50%;background:#06b6d4;display:inline-block;"></span>Cyber</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /LIVE MAP -->
+
+      <!-- ======================== HOTSPOTS ======================== -->
+      <div class="page" id="page-hotspots">
+        <div class="page-heading">
+          <h2><span class="page-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span>Hotspots</h2>
+        </div>
+        <!-- Stat row -->
+        <div class="stats-row" style="grid-template-columns:repeat(4,1fr);margin-bottom:18px;">
+          <div class="stat-card"><div class="stat-icon-wrap red"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div><div class="stat-body"><span class="stat-label">Hotspot Areas</span><span class="stat-value" id="hs-stat-total">0</span></div></div>
+          <div class="stat-card"><div class="stat-icon-wrap orange"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg></div><div class="stat-body"><span class="stat-label">Critical Zones</span><span class="stat-value" id="hs-stat-high">0</span></div></div>
+          <div class="stat-card"><div class="stat-icon-wrap blue"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div class="stat-body"><span class="stat-label">Total Incidents</span><span class="stat-value" id="hs-stat-inc">0</span></div></div>
+          <div class="stat-card"><div class="stat-icon-wrap green"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><div class="stat-body"><span class="stat-label">Patrols Deployed</span><span class="stat-value" id="hs-stat-patrol">0</span></div></div>
+        </div>
+
+        <div class="hotspot-grid">
+          <div style="display:flex;flex-direction:column;gap:18px;">
+            <div class="card">
+              <div class="card-header"><h3>HOTSPOT RANKING</h3><span class="live-badge"><span class="live-dot"></span> Updated</span></div>
+              <div class="risk-areas-list" id="hotspot-list"></div>
+            </div>
+            <div class="card chart-card">
+              <div class="card-header"><h3>RISK SCORE COMPARISON</h3></div>
+              <div class="card-body" style="height:240px;"><canvas id="hotspot-bar-chart"></canvas></div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:18px;">
+            <div class="card">
+              <div class="card-header"><h3>HOTSPOT MAP</h3></div>
+              <div id="hotspot-map"></div>
+              <div class="map-legend-bar"><span>Low</span><div class="legend-gradient-bar"></div><span>High</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /HOTSPOTS -->
+
+      <!-- ======================== INCIDENTS ======================== -->
+      <div class="page" id="page-incidents">
+        <div class="page-heading">
+          <h2><span class="page-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span>Incidents</h2>
+          <div class="page-actions">
+            <button class="btn-secondary" onclick="Utils.toast('Exporting…','info')">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Export
+            </button>
+            <button class="btn-primary" onclick="Utils.toast('Feature coming soon','info')">+ New Incident</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="table-toolbar">
+            <div style="display:flex;gap:10px;flex-wrap:wrap;">
+              <div class="search-input-wrap">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <input type="text" class="search-input" id="inc-search" placeholder="Search incidents…">
+              </div>
+              <select class="filter-select" id="inc-status-filter">
+                <option value="all">All Status</option>
+                <option value="open">Open</option>
+                <option value="closed">Closed</option>
+                <option value="pending">Pending</option>
+              </select>
+              <select class="filter-select" id="inc-sev-filter">
+                <option value="all">All Severity</option>
+                <option value="high">High</option>
+                <option value="medium">Medium</option>
+                <option value="low">Low</option>
+              </select>
+            </div>
+          </div>
+          <div style="overflow-x:auto;">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th class="inc-th" data-col="id">ID <span class="sort-arrow"></span></th>
+                  <th class="inc-th" data-col="type">Type <span class="sort-arrow"></span></th>
+                  <th class="inc-th" data-col="location">Location <span class="sort-arrow"></span></th>
+                  <th class="inc-th" data-col="severity">Severity <span class="sort-arrow"></span></th>
+                  <th class="inc-th" data-col="status">Status <span class="sort-arrow"></span></th>
+                  <th class="inc-th" data-col="officer">Officer <span class="sort-arrow"></span></th>
+                  <th class="inc-th" data-col="date">Date/Time <span class="sort-arrow">↓</span></th>
+                </tr>
+              </thead>
+              <tbody id="incidents-tbody"></tbody>
+            </table>
+          </div>
+          <div class="pagination">
+            <span id="inc-page-info"></span>
+            <div class="pagination-btns" id="inc-page-btns"></div>
+          </div>
+        </div>
+      </div>
+      <!-- /INCIDENTS -->
+
+      <!-- ======================== ANALYTICS ======================== -->
+      <div class="page" id="page-analytics">
+        <div class="page-heading">
+          <h2><span class="page-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/></svg></span>Analytics</h2>
+          <div class="page-actions">
+            <button class="analytics-period-btn map-filter-btn active" data-period="weekly">Weekly</button>
+            <button class="analytics-period-btn map-filter-btn" data-period="monthly">Monthly</button>
+            <button class="analytics-period-btn map-filter-btn" data-period="yearly">Yearly</button>
+          </div>
+        </div>
+
+        <!-- KPI row -->
+        <div class="stats-row" style="grid-template-columns:repeat(4,1fr);margin-bottom:18px;">
+          <div class="stat-card"><div class="stat-icon-wrap blue"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div class="stat-body"><span class="stat-label">Total Incidents</span><span class="stat-value" id="anlyt-total">0</span></div></div>
+          <div class="stat-card"><div class="stat-icon-wrap green"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div><div class="stat-body"><span class="stat-label">Cases Solved</span><span class="stat-value" id="anlyt-solved">0</span></div></div>
+          <div class="stat-card"><div class="stat-icon-wrap cyan"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><div class="stat-body"><span class="stat-label">Resolution Rate</span><span class="stat-value" id="anlyt-rate">0</span></div></div>
+          <div class="stat-card"><div class="stat-icon-wrap orange"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><div class="stat-body"><span class="stat-label">Avg Response</span><span class="stat-value" id="anlyt-response">0</span></div></div>
+        </div>
+
+        <div class="analytics-grid" style="margin-bottom:18px;">
+          <div class="card chart-card">
+            <div class="card-header"><h3>CRIME TREND</h3></div>
+            <div class="card-body" style="height:260px;"><canvas id="analytics-trend-chart"></canvas></div>
+          </div>
+          <div class="card chart-card">
+            <div class="card-header"><h3>CRIME DISTRIBUTION</h3></div>
+            <div class="card-body" style="height:260px;"><canvas id="crime-type-chart"></canvas></div>
+          </div>
+        </div>
+
+        <div class="analytics-grid-3">
+          <div class="card chart-card">
+            <div class="card-header"><h3>CRIMES BY AREA</h3></div>
+            <div class="card-body" style="height:240px;"><canvas id="area-crime-chart"></canvas></div>
+          </div>
+          <div class="card chart-card">
+            <div class="card-header"><h3>CRIME PROFILE</h3><span class="card-subtitle">Bangalore vs State</span></div>
+            <div class="card-body" style="height:240px;"><canvas id="crime-radar-chart"></canvas></div>
+          </div>
+          <div class="card chart-card">
+            <div class="card-header"><h3>HOURLY PATTERN</h3></div>
+            <div class="card-body" style="height:240px;"><canvas id="hourly-chart"></canvas></div>
+          </div>
+        </div>
+
+        <div class="analytics-grid" style="margin-top:18px;">
+          <div class="card chart-card" style="margin-top:0;">
+            <div class="card-header"><h3>CASE RESOLUTION</h3></div>
+            <div class="card-body" style="height:220px;"><canvas id="resolution-chart"></canvas></div>
+          </div>
+          <div class="card" style="margin-top:0;">
+            <div class="card-header"><h3>KEY INSIGHTS</h3></div>
+            <div style="padding:0 18px 18px;">
+              <div class="intel-item"><span class="intel-dot red"></span><span>Robbery incidents peaked in May (+28% vs Jan). Early evening hours most vulnerable (6–9 PM).</span></div>
+              <div class="intel-item"><span class="intel-dot orange"></span><span>Cyber crime growing fastest — up 123% year-on-year. Primarily UPI and OTP fraud.</span></div>
+              <div class="intel-item"><span class="intel-dot blue"></span><span>Theft accounts for 35% of all incidents. South-East zone is primary hotspot.</span></div>
+              <div class="intel-item"><span class="intel-dot green"></span><span>Case resolution rate of 58% is 6% above state average. Continues improving trend.</span></div>
+              <div class="intel-item"><span class="intel-dot orange"></span><span>Weekend crime (Sat/Sun) is 40% higher than weekdays, especially assault cases.</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /ANALYTICS -->
+
+      <!-- ======================== CRIME INTELLIGENCE ======================== -->
+      <div class="page" id="page-intelligence">
+        <div class="page-heading">
+          <h2><span class="page-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>Crime Intelligence</h2>
+          <div class="page-actions">
+            <span style="font-size:11px;color:var(--text-muted);font-weight:600;">AI-POWERED</span>
+            <button class="btn-primary" onclick="Utils.toast('Refreshing AI predictions…','info')">🔄 Refresh</button>
+          </div>
+        </div>
+
+        <div class="intel-grid">
+          <div>
+            <div class="card" style="margin-bottom:18px;">
+              <div class="card-header"><h3>AI PREDICTIONS</h3><span style="font-size:11px;color:var(--green);font-weight:700;">● Model Active</span></div>
+              <div style="padding:0 18px 18px;" id="intel-predictions"></div>
+            </div>
+
+            <div class="card" style="margin-bottom:18px;">
+              <div class="card-header"><h3>SUSPICIOUS ACTIVITIES</h3></div>
+              <div style="padding:0 18px 18px;" id="intel-suspicious"></div>
+            </div>
+
+            <div class="card chart-card">
+              <div class="card-header"><h3>CRIME FORECAST <span class="card-subtitle">Next 6 Weeks</span></h3></div>
+              <div class="card-body" style="height:200px;"><canvas id="intel-forecast-chart"></canvas></div>
+            </div>
+          </div>
+
+          <div>
+            <div class="card" style="margin-bottom:18px;">
+              <div class="card-header"><h3>INTELLIGENCE TIMELINE</h3></div>
+              <div id="intel-timeline"></div>
+            </div>
+
+            <div class="card">
+              <div class="card-header"><h3>RECOMMENDATIONS</h3></div>
+              <div style="padding:0 18px 18px;">
+                <div style="display:flex;flex-direction:column;gap:10px;">
+                  <div style="padding:12px;background:var(--red-bg);border-radius:var(--radius-md);border-left:3px solid var(--red);">
+                    <div style="font-size:12px;font-weight:700;color:var(--red);">HIGH PRIORITY</div>
+                    <div style="font-size:12px;color:var(--text-secondary);margin-top:4px;">Deploy 2 additional units to Koramangala for weekend coverage (Fri–Sun)</div>
+                  </div>
+                  <div style="padding:12px;background:var(--orange-bg);border-radius:var(--radius-md);border-left:3px solid var(--orange);">
+                    <div style="font-size:12px;font-weight:700;color:#d97706;">MEDIUM PRIORITY</div>
+                    <div style="font-size:12px;color:var(--text-secondary);margin-top:4px;">Increase ATM surveillance in Whitefield between 8–10 PM</div>
+                  </div>
+                  <div style="padding:12px;background:var(--green-bg);border-radius:var(--radius-md);border-left:3px solid var(--green);">
+                    <div style="font-size:12px;font-weight:700;color:var(--green);">INFO</div>
+                    <div style="font-size:12px;color:var(--text-secondary);margin-top:4px;">Coordinate with Cyber Cell on UPI fraud network investigation</div>
+                  </div>
+                  <div style="padding:12px;background:rgba(37,99,235,0.08);border-radius:var(--radius-md);border-left:3px solid var(--blue);">
+                    <div style="font-size:12px;font-weight:700;color:var(--blue);">SCHEDULED</div>
+                    <div style="font-size:12px;color:var(--text-secondary);margin-top:4px;">Monthly DCP briefing scheduled for Jul 10 — report auto-generated</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /INTELLIGENCE -->
+
+      <!-- ======================== OFFENDER NETWORK ======================== -->
+      <div class="page" id="page-network">
+        <div class="page-heading">
+          <h2><span class="page-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="5" r="2"/><circle cx="5" cy="19" r="2"/><circle cx="19" cy="19" r="2"/><line x1="12" y1="7" x2="5.5" y2="17"/><line x1="12" y1="7" x2="18.5" y2="17"/><line x1="6.5" y1="19" x2="17.5" y2="19"/></svg></span>Offender Network</h2>
+          <div class="page-actions">
+            <div class="search-input-wrap">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" class="search-input" id="network-search" placeholder="Search offenders…">
+            </div>
+            <button class="btn-secondary" id="network-reset">Reset Graph</button>
+          </div>
+        </div>
+
+        <div class="network-container">
+          <div class="card" style="overflow:hidden;">
+            <div class="card-header"><h3>CRIMINAL NETWORK GRAPH</h3><span style="font-size:11px;color:var(--text-muted);">Drag nodes to rearrange</span></div>
+            <canvas id="network-canvas" style="width:100%;height:500px;display:block;background:var(--bg-body);"></canvas>
+            <div style="padding:10px 18px;border-top:1px solid var(--card-border);display:flex;gap:14px;flex-wrap:wrap;">
+              <span style="display:flex;align-items:center;gap:5px;font-size:10.5px;"><span style="width:10px;height:10px;border-radius:50%;background:#ef4444;display:inline-block;"></span>Gang Leader</span>
+              <span style="display:flex;align-items:center;gap:5px;font-size:10.5px;"><span style="width:10px;height:10px;border-radius:50%;background:#f59e0b;display:inline-block;"></span>Associate</span>
+              <span style="display:flex;align-items:center;gap:5px;font-size:10.5px;"><span style="width:10px;height:10px;border-radius:50%;background:#8b5cf6;display:inline-block;"></span>Support Role</span>
+              <span style="display:flex;align-items:center;gap:5px;font-size:10.5px;"><span style="width:10px;height:10px;border-radius:50%;background:#06b6d4;display:inline-block;"></span>Cyber</span>
+              <span style="display:flex;align-items:center;gap:5px;font-size:10.5px;"><span style="width:10px;height:10px;border-radius:50%;background:#94a3b8;display:inline-block;"></span>Low Priority</span>
+            </div>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:18px;">
+            <div class="card">
+              <div class="card-header"><h3>OFFENDERS</h3></div>
+              <div class="offender-list" id="offender-list"></div>
+            </div>
+            <div class="card">
+              <div class="card-header"><h3>NODE DETAIL</h3></div>
+              <div style="padding:0 18px 18px;" id="offender-detail">
+                <p style="color:var(--text-muted);font-size:12px;text-align:center;padding:20px 0;">Click a node to view details</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /NETWORK -->
+
+      <!-- ======================== REPORTS ======================== -->
+      <div class="page" id="page-reports">
+        <div class="page-heading">
+          <h2><span class="page-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg></span>Reports</h2>
+          <div class="page-actions">
+            <button class="btn-secondary" onclick="Utils.toast('Scheduling report generation…','info')">Schedule Report</button>
+          </div>
+        </div>
+
+        <div class="reports-grid" id="reports-grid"></div>
+
+        <div class="analytics-grid">
+          <div class="card">
+            <div class="card-header"><h3>RECENT DOWNLOADS</h3></div>
+            <div id="recent-reports-list"></div>
+          </div>
+          <div class="card chart-card">
+            <div class="card-header"><h3>REPORTS GENERATED</h3><span class="card-subtitle">Last 6 Months</span></div>
+            <div class="card-body" style="height:200px;"><canvas id="reports-stats-chart"></canvas></div>
+          </div>
+        </div>
+      </div>
+      <!-- /REPORTS -->
+
+      <!-- ======================== ALERTS ======================== -->
+      <div class="page" id="page-alerts">
+        <div class="page-heading">
+          <h2><span class="page-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></span>Alerts <span style="font-size:13px;font-weight:500;color:var(--text-muted);" id="alerts-unread-count"></span></h2>
+          <div class="page-actions">
+            <div style="display:flex;align-items:center;gap:6px;">
+              <label class="toggle" style="flex-shrink:0;">
+                <input type="checkbox" id="alerts-unread-toggle">
+                <span class="toggle-slider"></span>
+              </label>
+              <span style="font-size:12px;color:var(--text-muted);">Unread only</span>
+            </div>
+            <button class="btn-secondary" id="alerts-mark-all">Mark All Read</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div style="display:flex;gap:8px;padding:14px 16px;border-bottom:1px solid var(--card-border);flex-wrap:wrap;">
+            <button class="alert-filter-btn map-filter-btn active" data-type="all">All</button>
+            <button class="alert-filter-btn map-filter-btn" data-type="critical">🔴 Critical</button>
+            <button class="alert-filter-btn map-filter-btn" data-type="warning">🟡 Warning</button>
+            <button class="alert-filter-btn map-filter-btn" data-type="info">🔵 Info</button>
+          </div>
+          <div id="alerts-page-list"></div>
+        </div>
+      </div>
+      <!-- /ALERTS -->
+
+      <!-- ======================== SETTINGS ======================== -->
+      <div class="page" id="page-settings">
+        <div class="page-heading">
+          <h2><span class="page-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span>Settings</h2>
+          <div class="page-actions">
+            <button class="btn-secondary" id="settings-reset">Reset Defaults</button>
+            <button class="btn-primary" id="settings-save">Save Settings</button>
+          </div>
+        </div>
+
+        <div class="settings-grid">
+          <!-- Appearance -->
+          <div class="card">
+            <div class="settings-section">
+              <div class="settings-label">Appearance</div>
+
+              <div class="settings-row">
+                <div><div class="settings-row-label">Dark Mode</div><div class="settings-row-sub">Toggle between light and dark</div></div>
+                <label class="toggle"><input type="checkbox" id="dark-toggle"><span class="toggle-slider"></span></label>
+              </div>
+
+              <div class="settings-row">
+                <div><div class="settings-row-label">Theme</div><div class="settings-row-sub">Choose your color scheme</div></div>
+                <div class="theme-options">
+                  <button class="theme-btn active" data-theme="light">☀️ Light</button>
+                  <button class="theme-btn" data-theme="dark">🌙 Dark</button>
+                  <button class="theme-btn" data-theme="system">💻 System</button>
+                </div>
+              </div>
+
+              <div class="settings-row">
+                <div><div class="settings-row-label">Accent Color</div><div class="settings-row-sub">Primary UI color</div></div>
+                <div class="color-options">
+                  <div class="color-dot active" data-accent="blue"   style="background:#2563eb;" title="Blue"></div>
+                  <div class="color-dot" data-accent="cyan"   style="background:#06b6d4;" title="Cyan"></div>
+                  <div class="color-dot" data-accent="green"  style="background:#16a34a;" title="Green"></div>
+                  <div class="color-dot" data-accent="purple" style="background:#8b5cf6;" title="Purple"></div>
+                  <div class="color-dot" data-accent="orange" style="background:#ea580c;" title="Orange"></div>
+                  <div class="color-dot" data-accent="red"    style="background:#dc2626;" title="Red"></div>
+                </div>
+              </div>
+
+              <div class="settings-row">
+                <div><div class="settings-row-label">Font Size</div><div class="settings-row-sub">Adjust text size</div></div>
+                <div style="display:flex;align-items:center;gap:10px;">
+                  <input type="range" class="font-slider" id="font-size-slider" min="0" max="2" step="1" value="1">
+                  <span style="font-size:12px;font-weight:600;color:var(--text-muted);min-width:50px;" id="font-size-label">Medium</span>
+                </div>
+              </div>
+
+              <div class="settings-row">
+                <div><div class="settings-row-label">Compact Mode</div><div class="settings-row-sub">Reduce padding and spacing</div></div>
+                <label class="toggle"><input type="checkbox" id="compact-toggle"><span class="toggle-slider"></span></label>
+              </div>
+
+              <div class="settings-row">
+                <div><div class="settings-row-label">Collapse Sidebar</div><div class="settings-row-sub">Show icons only</div></div>
+                <label class="toggle"><input type="checkbox" id="sidebar-collapse-toggle"><span class="toggle-slider"></span></label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Notifications -->
+          <div class="card">
+            <div class="settings-section">
+              <div class="settings-label">Notifications</div>
+
+              <div class="settings-row">
+                <div><div class="settings-row-label">Crime Alerts</div><div class="settings-row-sub">High severity crime notifications</div></div>
+                <label class="toggle"><input type="checkbox" id="notif-crime-toggle" checked><span class="toggle-slider"></span></label>
+              </div>
+              <div class="settings-row">
+                <div><div class="settings-row-label">Patrol Updates</div><div class="settings-row-sub">Unit check-in and movement alerts</div></div>
+                <label class="toggle"><input type="checkbox" id="notif-patrol-toggle" checked><span class="toggle-slider"></span></label>
+              </div>
+              <div class="settings-row">
+                <div><div class="settings-row-label">System Alerts</div><div class="settings-row-sub">Database sync and system messages</div></div>
+                <label class="toggle"><input type="checkbox" id="notif-alert-toggle" checked><span class="toggle-slider"></span></label>
+              </div>
+              <div class="settings-row">
+                <div><div class="settings-row-label">Report Notifications</div><div class="settings-row-sub">Auto-generated report alerts</div></div>
+                <label class="toggle"><input type="checkbox" id="notif-report-toggle"><span class="toggle-slider"></span></label>
+              </div>
+            </div>
+
+            <div class="settings-section" style="border-top:1px solid var(--card-border);">
+              <div class="settings-label">Account</div>
+              <div class="settings-row">
+                <div><div class="settings-row-label">Officer</div></div>
+                <span style="font-size:13px;font-weight:600;">Inspector Arjun</span>
+              </div>
+              <div class="settings-row">
+                <div><div class="settings-row-label">KSP ID</div></div>
+                <span style="font-size:13px;color:var(--text-muted);">4587</span>
+              </div>
+              <div class="settings-row">
+                <div><div class="settings-row-label">Department</div></div>
+                <span style="font-size:13px;color:var(--text-muted);">Bangalore City Police</span>
+              </div>
+              <div class="settings-row">
+                <div><div class="settings-row-label">Platform Version</div></div>
+                <span style="font-size:12px;font-weight:700;color:var(--blue);background:rgba(37,99,235,0.1);padding:2px 10px;border-radius:20px;">NETRA v2.0</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /SETTINGS -->
+
+    </main>
+  </div>
+</div>
+
+<!-- ===== INCIDENT DETAIL MODAL ===== -->
+<div class="modal-overlay" id="incident-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>Incident Details — <span id="modal-inc-id"></span></h3>
+      <button class="modal-close" id="modal-close-btn">✕</button>
+    </div>
+    <div class="modal-body" id="modal-inc-body"></div>
+  </div>
+</div>
+
+<!-- External Libraries -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+<!-- NETRA Modules (order matters) -->
+<script src="js/utils.js"></script>
+<script src="js/theme.js"></script>
+<script src="js/router.js"></script>
+<script src="js/notifications.js"></script>
+<script src="js/charts.js"></script>
+<script src="js/map.js"></script>
+<script src="js/dashboard.js"></script>
+<script src="js/incidents.js"></script>
+<script src="js/analytics.js"></script>
+<script src="js/hotspots.js"></script>
+<script src="js/intelligence.js"></script>
+<script src="js/network.js"></script>
+<script src="js/reports.js"></script>
+<script src="js/alerts.js"></script>
+<script src="js/settings.js"></script>
+<script src="js/app.js"></script>
+
+<script>
+  // Profile Switching Logic
+  function switchProfile(avatarInitials, name, kspId, event) {
+    if (event) {
+      event.stopPropagation();
+    }
+    
+    // Update UI
+    document.getElementById('current-user-avatar').textContent = avatarInitials;
+    document.getElementById('current-user-name').textContent = name;
+    document.getElementById('current-user-id').textContent = 'KSP ID: ' + kspId;
+    
+    const greetingName = document.getElementById('greeting-name');
+    if (greetingName) {
+      greetingName.textContent = name;
+    }
+    
+    // Update Profile Colors based on initial (just a simple mapping for aesthetics)
+    let bgColor = 'var(--text-muted)';
+    if (avatarInitials === 'A') bgColor = 'var(--blue)';
+    if (avatarInitials === 'P') bgColor = 'var(--blue-light)';
+    if (avatarInitials === 'S') bgColor = 'var(--green)';
+    document.getElementById('current-user-avatar').style.background = bgColor;
+    
+    // Close dropdown
+    document.getElementById('profile-dropdown').classList.remove('active');
+  }
+
+  // Dynamic Greeting based on time
+  function updateDynamicGreeting() {
+    const hour = new Date().getHours();
+    let greeting = 'Good Evening,';
+    if (hour >= 5 && hour < 12) {
+      greeting = 'Good Morning,';
+    } else if (hour >= 12 && hour < 17) {
+      greeting = 'Good Afternoon,';
+    }
+    
+    const greetingTop = document.getElementById('greeting-top');
+    if (greetingTop) {
+      greetingTop.textContent = greeting;
+    }
+  }
+
+  // Close dropdowns when clicking outside
+  document.addEventListener('click', function(event) {
+    const msgBtn = document.getElementById('msg-btn');
+    const msgDropdown = document.getElementById('msg-dropdown');
+    
+    if (msgBtn && msgDropdown && !msgBtn.contains(event.target) && !msgDropdown.contains(event.target)) {
+      msgDropdown.classList.remove('active');
+    }
+    
+    const profileDropdown = document.getElementById('profile-dropdown');
+    const profileUser = document.querySelector('.header-user');
+    
+    if (profileUser && profileDropdown && !profileUser.contains(event.target) && !profileDropdown.contains(event.target)) {
+      profileDropdown.classList.remove('active');
+    }
+  });
+
+  // Initialize on load
+  document.addEventListener('DOMContentLoaded', () => {
+    updateDynamicGreeting();
+  });
+</script>
+</body>
+</html>
